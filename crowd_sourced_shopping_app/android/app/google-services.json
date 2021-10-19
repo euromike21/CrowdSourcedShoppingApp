@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "288715222594",
+    "project_id": "crowd-sourced-shopping-app",
+    "storage_bucket": "crowd-sourced-shopping-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:288715222594:android:1de7a0a96c6dac5946c7db",
+        "android_client_info": {
+          "package_name": "com.example.crowd_sourced_shopping_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "288715222594-ehso49pbk3jpfsueb9ssf9tnuqhk377l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwvRAmlnSowEuKLZdY72OOxGGRE8jfI6U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "288715222594-ehso49pbk3jpfsueb9ssf9tnuqhk377l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
