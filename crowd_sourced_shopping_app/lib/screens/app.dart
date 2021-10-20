@@ -1,5 +1,4 @@
-import 'package:crowd_sourced_shopping_app/screens/login_screen.dart';
-import 'package:flutter/material.dart';
+import 'package:crowd_sourced_shopping_app/exports.dart';
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

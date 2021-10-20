@@ -1,9 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:crowd_sourced_shopping_app/model/user_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:crowd_sourced_shopping_app/exports.dart';
-import 'login_screen.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key}) : super(key: key);
@@ -63,6 +58,10 @@ class _MyHomePageState extends State<MyHomePage> {
         currentIndex: selected_index,
         items: tabs,
         onTap: onTabTap,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
       ),
     );
   }
