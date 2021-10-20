@@ -1,8 +1,6 @@
 import 'package:crowd_sourced_shopping_app/screens/home_page.dart';
 import 'package:crowd_sourced_shopping_app/screens/registration_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:crowd_sourced_shopping_app/exports.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
