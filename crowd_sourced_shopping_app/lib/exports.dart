@@ -4,6 +4,7 @@ export 'package:firebase_auth/firebase_auth.dart';
 export 'package:firebase_core/firebase_core.dart';
 export 'package:flutter/material.dart';
 export 'package:flutter/services.dart';
+export 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 export 'package:fluttertoast/fluttertoast.dart';
 export 'model/user_model.dart';
 export 'screens/add_item_screen.dart';
