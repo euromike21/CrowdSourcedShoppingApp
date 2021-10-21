@@ -1,5 +1,3 @@
-import 'package:crowd_sourced_shopping_app/screens/home_page.dart';
-import 'package:crowd_sourced_shopping_app/screens/registration_screen.dart';
 import 'package:crowd_sourced_shopping_app/exports.dart';
 
 class LoginScreen extends StatefulWidget {
