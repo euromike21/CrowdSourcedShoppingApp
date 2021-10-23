@@ -59,13 +59,6 @@ class _MyHomePageState extends State<MyHomePage> {
         items: tabs,
         onTap: onTabTap,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AddItemScreen()));
-        },
-        child: Icon(Icons.add),
-      ),
     );
   }
 

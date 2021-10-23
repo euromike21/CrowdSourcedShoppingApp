@@ -26,16 +26,24 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            'Home Screen',
-            style: TextStyle(fontSize: 30),
+    return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => AddItemScreen()));
+          },
+          child: Icon(Icons.add),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'Home Screen',
+                style: TextStyle(fontSize: 30),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        ));
   }
 }
