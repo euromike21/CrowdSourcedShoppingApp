@@ -39,34 +39,26 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Center(child: Text("Welcome Back ${loggedInUser.firstName}!")),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.logout,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              logout(context);
-            },
-          )
-        ],
-      ),
-      body: tab_pages[selected_index],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selected_index,
-        items: tabs,
-        onTap: onTabTap,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AddItemScreen()));
-        },
-        child: Icon(Icons.add),
-      ),
-    );
+        appBar: AppBar(
+          title: Center(child: Text("Welcome Back ${loggedInUser.firstName}!")),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.logout,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                logout(context);
+              },
+            )
+          ],
+        ),
+        body: tab_pages[selected_index],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: selected_index,
+          items: tabs,
+          onTap: onTabTap,
+        ));
   }
 
   void onTabTap(int index) {
