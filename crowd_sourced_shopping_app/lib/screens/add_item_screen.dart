@@ -1,4 +1,5 @@
 import 'package:crowd_sourced_shopping_app/exports.dart';
+import 'package:http/http.dart' as http;
 
 // Brings up a to scan or search for an item
 class AddItemScreen extends StatefulWidget {
@@ -10,15 +11,17 @@ class AddItemScreen extends StatefulWidget {
 
 class _AddItemScreenState extends State<AddItemScreen> {
   String scanBarcode = "Unknown";
+  late Future<SearchResult> futureSearchResult;
 
   @override
   void initState() {
     super.initState();
+    futureSearchResult = fetchSearch();
   }
 
   Future<void> barcodeScan() async {
     String barcodeScanRes;
-    // Platform messages may fail, so we use a try/catch PlatformException.
+
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'Cancel', false, ScanMode.BARCODE);
@@ -37,6 +40,19 @@ class _AddItemScreenState extends State<AddItemScreen> {
     });
   }
 
+  Future<SearchResult> fetchSearch() async {
+    final response = await http.get(Uri.parse(
+        'https://api.barcodelookup.com/v3/products?search=GPS%20Navigation%20System&formatted=y&key=xg726217n6gv3iia7kl0kq5ew9zw85'));
+
+    if (response.statusCode == 200) {
+      var prods = SearchResult.fromJson(jsonDecode(response.body));
+      print(prods.products[1].brand);
+      return prods;
+    } else {
+      throw Exception('ERROR: Failed to load product.');
+    }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -53,6 +69,20 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     // Button to start barcode scanner
                     onPressed: () => barcodeScan(),
                     child: Text('Start Barcode Scanner')),
+                Text('Scan result : $scanBarcode\n',
+                    style: TextStyle(fontSize: 20)),
+                FutureBuilder<SearchResult>(
+                    future: futureSearchResult,
+                    builder: (context, snapshot) {
+                      final product = snapshot.data;
+                      if (snapshot.hasData) {
+                        print(product!.products);
+                        return Text('${product.products[0]}');
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
+                      return const CircularProgressIndicator();
+                    })
               ],
             ));
       }),
