@@ -2,7 +2,7 @@
 
 class Product {
   final String brand;
-  final String images;
+  final List<String> images;
   final String description;
   final String title;
 
@@ -14,9 +14,13 @@ class Product {
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
+    // since 'images' is an array of URLs, cast into string list
+    var imagesListFromJson = json['images'];
+    List<String> imagesList = imagesListFromJson.cast<String>();
+
     return Product(
         title: json['title'],
-        images: json['images'].cast<String>(),
+        images: imagesList,
         description: json['description'],
         brand: json['brand']);
   }

@@ -46,7 +46,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
     if (response.statusCode == 200) {
       var prods = SearchResult.fromJson(jsonDecode(response.body));
-      print(prods.products[1].brand);
       return prods;
     } else {
       throw Exception('ERROR: Failed to load product.');
@@ -71,13 +70,16 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     child: Text('Start Barcode Scanner')),
                 Text('Scan result : $scanBarcode\n',
                     style: TextStyle(fontSize: 20)),
+                ElevatedButton(
+                    // Button to start barcode scanner
+                    onPressed: () => barcodeScan(),
+                    child: Text('Product Search')),
                 FutureBuilder<SearchResult>(
                     future: futureSearchResult,
                     builder: (context, snapshot) {
                       final product = snapshot.data;
                       if (snapshot.hasData) {
-                        print(product!.products);
-                        return Text('${product.products[0]}');
+                        return Text('${product!.products[0].title}');
                       } else if (snapshot.hasError) {
                         return Text('${snapshot.error}');
                       }
