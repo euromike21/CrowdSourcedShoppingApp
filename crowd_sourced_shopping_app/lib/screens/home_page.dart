@@ -34,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   // Includes the children widgets of each tab page
-  final tab_pages = [HomeScreen(), ShoppingListScreen(), ProfileScreen()];
+  final tab_pages = [HomeScreen(), NotesPage(), ProfileScreen()];
 
   @override
   Widget build(BuildContext context) {
