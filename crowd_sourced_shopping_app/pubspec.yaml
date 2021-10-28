@@ -17,6 +17,7 @@ dependencies:
   fluttertoast: ^8.0.8
   cloud_firestore: ^2.5.1
   flutter_barcode_scanner: ^2.0.0
+  http: ^0.13.3
 
 
   # Barcode Lookup API Key: xg726217n6gv3iia7kl0kq5ew9zw85
