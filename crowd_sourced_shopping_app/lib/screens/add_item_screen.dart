@@ -30,9 +30,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
       barcodeScanRes = 'Failed to get platform version.';
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
 
     setState(() {
@@ -42,7 +39,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   Future<SearchResult> fetchSearch() async {
     final response = await http.get(Uri.parse(
-        'https://api.barcodelookup.com/v3/products?search=GPS%20Navigation%20System&formatted=y&key=xg726217n6gv3iia7kl0kq5ew9zw85'));
+        'https://api.barcodelookup.com/v3/products?search=GPS%20Navigation%20System&formatted=y&key=6j1lk6uavs4g6qnptuhj0o36q12rc7'));
 
     if (response.statusCode == 200) {
       var prods = SearchResult.fromJson(jsonDecode(response.body));
@@ -54,40 +51,85 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Add Item'),
-        centerTitle: true,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            pinned: true,
+            snap: false,
+            centerTitle: true,
+            title: Text('Add Item'),
+            bottom: AppBar(
+              title: Container(
+                width: double.infinity,
+                height: 40,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(6)),
+                child: TextField(
+                  decoration: InputDecoration(
+                      prefixIcon: IconButton(
+                          onPressed: () {}, icon: Icon(Icons.search)),
+                      suffixIcon: IconButton(
+                          onPressed: () => barcodeScan(),
+                          icon: Icon(Icons.camera_alt)),
+                      hintText: 'Search...',
+                      border: InputBorder.none),
+                ),
+              ),
+              automaticallyImplyLeading: false,
+            ),
+          ),
+          SliverList(
+              delegate: SliverChildListDelegate([
+            ListTile(
+              title: Text('Search Result 1'),
+            ),
+            ListTile(
+              title: Text('Search Result 2'),
+            ),
+            ListTile(
+              title: Text('Search Result 3'),
+            ),
+            ListTile(
+              title: Text('Search Result 4'),
+            ),
+            ListTile(
+              title: Text('Search Result 5'),
+            ),
+            ListTile(
+              title: Text('Search Result 6'),
+            ),
+
+            // Container(height: 200, child: Text('Search Results here!')),
+            // Container(
+            //     child: Text('Scan result : $scanBarcode\n',
+            //         style: TextStyle(fontSize: 20))),
+            // FutureBuilder<SearchResult>(
+            //     future: futureSearchResult,
+            //     builder: (context, snapshot) {
+            //       final product = snapshot.data;
+            //       if (snapshot.hasData) {
+            //         return Column(
+            //           children: [
+            //             Text('${product!.products[0].title}',
+            //                 style: TextStyle(fontSize: 20)),
+            //             Text('${product.products[1].title}',
+            //                 style: TextStyle(fontSize: 20)),
+            //             Text('${product.products[2].title}',
+            //                 style: TextStyle(fontSize: 20)),
+            //           ],
+            //         );
+            //       } else if (snapshot.hasError) {
+            //         return Text('${snapshot.error}');
+            //       }
+            //       return const CircularProgressIndicator();
+            //     }),
+            Container(height: 500, color: Colors.red),
+            Container(height: 500, color: Colors.green)
+          ]))
+        ],
       ),
-      body: Builder(builder: (BuildContext context) {
-        return Container(
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                    // Button to start barcode scanner
-                    onPressed: () => barcodeScan(),
-                    child: Text('Start Barcode Scanner')),
-                Text('Scan result : $scanBarcode\n',
-                    style: TextStyle(fontSize: 20)),
-                ElevatedButton(
-                    // Button to start barcode scanner
-                    onPressed: () => barcodeScan(),
-                    child: Text('Product Search')),
-                FutureBuilder<SearchResult>(
-                    future: futureSearchResult,
-                    builder: (context, snapshot) {
-                      final product = snapshot.data;
-                      if (snapshot.hasData) {
-                        return Text('${product!.products[0].title}');
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-                      return const CircularProgressIndicator();
-                    })
-              ],
-            ));
-      }),
     );
   }
 }

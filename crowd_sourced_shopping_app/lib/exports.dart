@@ -7,7 +7,6 @@ export 'package:flutter/material.dart';
 export 'package:flutter/services.dart';
 export 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 export 'package:fluttertoast/fluttertoast.dart';
-export 'model/album_class.dart';
 export 'model/user_model.dart';
 export 'model/product_model.dart';
 export 'screens/add_item_screen.dart';
