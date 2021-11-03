@@ -15,7 +15,6 @@ export 'screens/home_page.dart';
 export 'screens/home_screen.dart';
 export 'screens/login_screen.dart';
 export 'screens/profile_screen.dart';
-export 'screens/product_search.dart';
 export 'screens/registration_screen.dart';
 export 'screens/shopping_list_screen.dart';
 export 'package:crowd_sourced_shopping_app/model/shop_item.dart';

@@ -30,9 +30,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
       barcodeScanRes = 'Failed to get platform version.';
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
 
     setState(() {
@@ -85,60 +82,54 @@ class _AddItemScreenState extends State<AddItemScreen> {
           ),
           SliverList(
               delegate: SliverChildListDelegate([
-            Container(height: 200, child: Text('Search Results here!')),
-            Container(
-                child: Text('Scan result : $scanBarcode\n',
-                    style: TextStyle(fontSize: 20))),
-            Container(height: 1000, color: Colors.red)
+            ListTile(
+              title: Text('Search Result 1'),
+            ),
+            ListTile(
+              title: Text('Search Result 2'),
+            ),
+            ListTile(
+              title: Text('Search Result 3'),
+            ),
+            ListTile(
+              title: Text('Search Result 4'),
+            ),
+            ListTile(
+              title: Text('Search Result 5'),
+            ),
+            ListTile(
+              title: Text('Search Result 6'),
+            ),
+
+            // Container(height: 200, child: Text('Search Results here!')),
+            // Container(
+            //     child: Text('Scan result : $scanBarcode\n',
+            //         style: TextStyle(fontSize: 20))),
+            // FutureBuilder<SearchResult>(
+            //     future: futureSearchResult,
+            //     builder: (context, snapshot) {
+            //       final product = snapshot.data;
+            //       if (snapshot.hasData) {
+            //         return Column(
+            //           children: [
+            //             Text('${product!.products[0].title}',
+            //                 style: TextStyle(fontSize: 20)),
+            //             Text('${product.products[1].title}',
+            //                 style: TextStyle(fontSize: 20)),
+            //             Text('${product.products[2].title}',
+            //                 style: TextStyle(fontSize: 20)),
+            //           ],
+            //         );
+            //       } else if (snapshot.hasError) {
+            //         return Text('${snapshot.error}');
+            //       }
+            //       return const CircularProgressIndicator();
+            //     }),
+            Container(height: 500, color: Colors.red),
+            Container(height: 500, color: Colors.green)
           ]))
         ],
       ),
     );
-
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     title: Text('Add Item'),
-    //     centerTitle: true,
-    //     actions: [
-    //       IconButton(
-    //           onPressed: () {
-    //             Navigator.of(context).push(
-    //                 MaterialPageRoute(builder: (context) => SearchScreen()));
-    //           },
-    //           icon: Icon(Icons.search))
-    //     ],
-    //   ),
-    //   body: Builder(builder: (BuildContext context) {
-    //     return Container(
-    //         alignment: Alignment.center,
-    //         child: Column(
-    //           mainAxisAlignment: MainAxisAlignment.center,
-    //           children: [
-    //             ElevatedButton(
-    //                 // Button to start barcode scanner
-    //                 onPressed: () => barcodeScan(),
-    //                 child: Text('Start Barcode Scanner')),
-    //             Text('Scan result : $scanBarcode\n',
-    //                 style: TextStyle(fontSize: 20)),
-    //             ElevatedButton(
-    //                 // Button to start barcode scanner
-    //                 onPressed: () => barcodeScan(),
-    //                 child: Text('Product Search')),
-    //             FutureBuilder<SearchResult>(
-    //                 future: futureSearchResult,
-    //                 builder: (context, snapshot) {
-    //                   final product = snapshot.data;
-    //                   if (snapshot.hasData) {
-    //                     return Text('${product!.products[0].title}',
-    //                         style: TextStyle(fontSize: 20));
-    //                   } else if (snapshot.hasError) {
-    //                     return Text('${snapshot.error}');
-    //                   }
-    //                   return const CircularProgressIndicator();
-    //                 })
-    //           ],
-    //         ));
-    //   }),
-    // );
   }
 }
