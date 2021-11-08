@@ -16,7 +16,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
   @override
   void initState() {
     super.initState();
-    futureSearchResult = fetchSearch();
   }
 
   Future<void> barcodeScan() async {
@@ -37,9 +36,17 @@ class _AddItemScreenState extends State<AddItemScreen> {
     });
   }
 
-  Future<SearchResult> fetchSearch() async {
+  Future<SearchResult> fetchSearch(String searchInput) async {
+    final List searchInputSplit = searchInput.split(' ');
+    final String searchString = searchInputSplit.join('%20');
+
+    // final response = await http.get(Uri.parse(
+    //     'https://api.barcodelookup.com/v3/products?search=GPS%20Navigation%20System&formatted=y&key=6j1lk6uavs4g6qnptuhj0o36q12rc7'));
+
     final response = await http.get(Uri.parse(
-        'https://api.barcodelookup.com/v3/products?search=GPS%20Navigation%20System&formatted=y&key=6j1lk6uavs4g6qnptuhj0o36q12rc7'));
+        'https://api.barcodelookup.com/v3/products?search=' +
+            searchString +
+            '&formatted=y&key=6j1lk6uavs4g6qnptuhj0o36q12rc7'));
 
     if (response.statusCode == 200) {
       var prods = SearchResult.fromJson(jsonDecode(response.body));
@@ -47,6 +54,27 @@ class _AddItemScreenState extends State<AddItemScreen> {
     } else {
       throw Exception('ERROR: Failed to load product.');
     }
+  }
+
+  void showSearchDialog(String input) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Thanks!'),
+          content: Text(
+              'You typed "$input", which has length ${input.characters.length}.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget build(BuildContext context) {
@@ -75,6 +103,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           icon: Icon(Icons.camera_alt)),
                       hintText: 'Search...',
                       border: InputBorder.none),
+                  onSubmitted: (String input) {
+                    futureSearchResult = fetchSearch(input);
+                  },
                 ),
               ),
               automaticallyImplyLeading: false,
@@ -82,49 +113,26 @@ class _AddItemScreenState extends State<AddItemScreen> {
           ),
           SliverList(
               delegate: SliverChildListDelegate([
-            ListTile(
-              title: Text('Search Result 1'),
-            ),
-            ListTile(
-              title: Text('Search Result 2'),
-            ),
-            ListTile(
-              title: Text('Search Result 3'),
-            ),
-            ListTile(
-              title: Text('Search Result 4'),
-            ),
-            ListTile(
-              title: Text('Search Result 5'),
-            ),
-            ListTile(
-              title: Text('Search Result 6'),
-            ),
-
-            // Container(height: 200, child: Text('Search Results here!')),
-            // Container(
-            //     child: Text('Scan result : $scanBarcode\n',
-            //         style: TextStyle(fontSize: 20))),
-            // FutureBuilder<SearchResult>(
-            //     future: futureSearchResult,
-            //     builder: (context, snapshot) {
-            //       final product = snapshot.data;
-            //       if (snapshot.hasData) {
-            //         return Column(
-            //           children: [
-            //             Text('${product!.products[0].title}',
-            //                 style: TextStyle(fontSize: 20)),
-            //             Text('${product.products[1].title}',
-            //                 style: TextStyle(fontSize: 20)),
-            //             Text('${product.products[2].title}',
-            //                 style: TextStyle(fontSize: 20)),
-            //           ],
-            //         );
-            //       } else if (snapshot.hasError) {
-            //         return Text('${snapshot.error}');
-            //       }
-            //       return const CircularProgressIndicator();
-            //     }),
+            FutureBuilder<SearchResult>(
+                future: futureSearchResult,
+                builder: (context, snapshot) {
+                  final product = snapshot.data;
+                  if (snapshot.hasData) {
+                    return Column(
+                      children: [
+                        Text('${product!.products[0].title}',
+                            style: TextStyle(fontSize: 20)),
+                        Text('${product.products[1].title}',
+                            style: TextStyle(fontSize: 20)),
+                        Text('${product.products[2].title}',
+                            style: TextStyle(fontSize: 20)),
+                      ],
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
+                  return const CircularProgressIndicator();
+                }),
             Container(height: 500, color: Colors.red),
             Container(height: 500, color: Colors.green)
           ]))
