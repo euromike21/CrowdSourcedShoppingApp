@@ -37,4 +37,8 @@ class SearchResult {
 
     return SearchResult(products: productList);
   }
+
+  List<Product> get productsList {
+    return products;
+  }
 }

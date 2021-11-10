@@ -11,11 +11,20 @@ class AddItemScreen extends StatefulWidget {
 
 class _AddItemScreenState extends State<AddItemScreen> {
   String scanBarcode = "Unknown";
-  late Future<SearchResult> futureSearchResult;
+  List<Product> futureSearchResult = [];
+  String query = '';
 
   @override
   void initState() {
     super.initState();
+    init();
+  }
+
+  Future init() async {
+    final products = await BarcodeLookupAPI().getProducts(query);
+    setState(() {
+      this.futureSearchResult = products;
+    });
   }
 
   Future<void> barcodeScan() async {
@@ -77,6 +86,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
     );
   }
 
+  Widget buildSearchResults(Product product) => ListTile(
+        title: Text(product.title),
+        subtitle: Text(product.brand),
+      );
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
@@ -95,6 +109,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(6)),
                 child: TextField(
+                  controller: TextEditingController(),
                   decoration: InputDecoration(
                       prefixIcon: IconButton(
                           onPressed: () {}, icon: Icon(Icons.search)),
@@ -104,7 +119,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       hintText: 'Search...',
                       border: InputBorder.none),
                   onSubmitted: (String input) {
-                    futureSearchResult = fetchSearch(input);
+                    // futureSearchResult = fetchSearch(input);
                   },
                 ),
               ),
@@ -113,28 +128,16 @@ class _AddItemScreenState extends State<AddItemScreen> {
           ),
           SliverList(
               delegate: SliverChildListDelegate([
-            FutureBuilder<SearchResult>(
-                future: futureSearchResult,
-                builder: (context, snapshot) {
-                  final product = snapshot.data;
-                  if (snapshot.hasData) {
-                    return Column(
-                      children: [
-                        Text('${product!.products[0].title}',
-                            style: TextStyle(fontSize: 20)),
-                        Text('${product.products[1].title}',
-                            style: TextStyle(fontSize: 20)),
-                        Text('${product.products[2].title}',
-                            style: TextStyle(fontSize: 20)),
-                      ],
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text('${snapshot.error}');
-                  }
-                  return const CircularProgressIndicator();
-                }),
-            Container(height: 500, color: Colors.red),
-            Container(height: 500, color: Colors.green)
+            Expanded(
+              child: ListView.builder(
+                itemCount: futureSearchResult.length,
+                itemBuilder: (context, index) {
+                  final product = futureSearchResult[index];
+
+                  return buildSearchResults(product);
+                },
+              ),
+            )
           ]))
         ],
       ),
