@@ -4,13 +4,28 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Crowd Sourced Shopping App Login',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
-    );
+    final user = UserPreferences.myUser;
+
+    return ThemeProvider(
+        themes: [
+          AppTheme(
+            id: 'dark',
+            description: 'darkTheme',
+            data: ThemeData.dark(),
+          ),
+          AppTheme(
+            id: 'light',
+            description: 'lightTheme',
+            data: ThemeData.light(),
+          )
+        ],
+        defaultThemeId: user.isDarkMode ? 'dark' : 'light',
+        child: Builder(
+            builder: (context) => MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  title: 'Crowd Sourced Shopping App Login',
+                  theme: ThemeProvider.themeOf(context).data,
+                  home: LoginScreen(),
+                )));
   }
 }

@@ -37,7 +37,6 @@ class _NotesPageState extends State<NotesPage> {
                   : buildNotes(),
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.blue,
           child: Icon(Icons.add),
           onPressed: () async {
             await Navigator.of(context).push(

@@ -10,6 +10,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
+  late UserProf usr = UserPreferences.getUser();
   int selected_index = 0;
 
   @override
@@ -21,7 +22,9 @@ class _MyHomePageState extends State<MyHomePage> {
         .get()
         .then((value) {
       this.loggedInUser = UserModel.fromMap(value.data());
-      setState(() {});
+      setState(() => usr = usr.copy(
+          name: "${loggedInUser.firstName} ${loggedInUser.secondName}"));
+      UserPreferences.setUser(usr);
     });
   }
 

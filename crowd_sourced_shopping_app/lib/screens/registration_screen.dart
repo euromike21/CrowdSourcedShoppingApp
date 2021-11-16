@@ -174,58 +174,60 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           )),
     );
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.blue),
-          onPressed: () {
-            // passing this to our root
-            Navigator.of(context).pop();
-          },
-        ),
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                        height: 180,
-                        child: Image.asset(
-                          "assets/logo.png",
-                          fit: BoxFit.contain,
-                        )),
-                    SizedBox(height: 20),
-                    firstNameField,
-                    SizedBox(height: 20),
-                    secondNameField,
-                    SizedBox(height: 20),
-                    emailField,
-                    SizedBox(height: 20),
-                    passwordField,
-                    SizedBox(height: 20),
-                    confirmPasswordField,
-                    SizedBox(height: 20),
-                    signUpButton,
-                    SizedBox(height: 15),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+    return ThemeConsumer(
+        child: Builder(
+            builder: (context) => Scaffold(
+                  backgroundColor: Colors.white,
+                  appBar: AppBar(
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    leading: IconButton(
+                      icon: Icon(Icons.arrow_back, color: Colors.blue),
+                      onPressed: () {
+                        // passing this to our root
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                  body: Center(
+                    child: SingleChildScrollView(
+                      child: Container(
+                        color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                SizedBox(
+                                    height: 180,
+                                    child: Image.asset(
+                                      "assets/logo.png",
+                                      fit: BoxFit.contain,
+                                    )),
+                                SizedBox(height: 20),
+                                firstNameField,
+                                SizedBox(height: 20),
+                                secondNameField,
+                                SizedBox(height: 20),
+                                emailField,
+                                SizedBox(height: 20),
+                                passwordField,
+                                SizedBox(height: 20),
+                                confirmPasswordField,
+                                SizedBox(height: 20),
+                                signUpButton,
+                                SizedBox(height: 15),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                )));
   }
 
   void signUp(String email, String password) async {
