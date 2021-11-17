@@ -18,6 +18,7 @@ export 'screens/login_screen.dart';
 export 'screens/profile_screen.dart';
 export 'screens/registration_screen.dart';
 export 'screens/shopping_list_screen.dart';
+export 'widget/search_bar_widget.dart';
 export 'package:crowd_sourced_shopping_app/model/shop_item.dart';
 export 'package:crowd_sourced_shopping_app/db/notes.dart';
 export 'package:crowd_sourced_shopping_app/screens/edit_note_page.dart';
