@@ -5,14 +5,15 @@ class BarcodeLookupAPI {
   Future<List<Product>> getProducts(String query) async {
     final List queryInputSplit = query.split(' ');
     final String queryString = queryInputSplit.join('%20');
-    String queryURL = 'https://api.barcodelookup.com/v3/products?search=' +
-        queryString +
-        '&formatted=y&key=6j1lk6uavs4g6qnptuhj0o36q12rc7';
+    var queryURL = Uri.parse(
+        'https://api.barcodelookup.com/v3/products?search=' +
+            queryString +
+            '&formatted=y&key=maorbr3h5jxxtdsiihjav1sux9q2tr');
 
     // final response = await http.get(Uri.parse(
     //     'https://api.barcodelookup.com/v3/products?search=GPS%20Navigation%20System&formatted=y&key=6j1lk6uavs4g6qnptuhj0o36q12rc7'));
 
-    final response = await http.get(Uri.parse(queryURL));
+    final response = await http.get(queryURL);
 
     if (response.statusCode == 200) {
       var prods = SearchResult.fromJson(jsonDecode(response.body));

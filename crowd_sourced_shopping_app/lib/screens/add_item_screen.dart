@@ -1,5 +1,4 @@
 import 'package:crowd_sourced_shopping_app/exports.dart';
-import 'package:http/http.dart' as http;
 
 // Brings up a to scan or search for an item
 class AddItemScreen extends StatefulWidget {
@@ -10,137 +9,98 @@ class AddItemScreen extends StatefulWidget {
 }
 
 class _AddItemScreenState extends State<AddItemScreen> {
-  String scanBarcode = "Unknown";
   List<Product> futureSearchResult = [];
   String query = '';
+  Timer? debouncer;
 
   @override
   void initState() {
     super.initState();
-    init();
   }
 
-  Future init() async {
-    final products = await BarcodeLookupAPI().getProducts(query);
-    setState(() {
-      this.futureSearchResult = products;
-    });
+  @override
+  void dispose() {
+    debouncer?.cancel();
+    super.dispose();
   }
 
-  Future<void> barcodeScan() async {
-    String barcodeScanRes;
-
-    try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', false, ScanMode.BARCODE);
-      print(barcodeScanRes);
-    } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
+  void debounce(VoidCallback callback,
+      {Duration duration = const Duration(milliseconds: 800)}) {
+    if (debouncer != null) {
+      debouncer!.cancel();
     }
-
-    if (!mounted) return;
-
-    setState(() {
-      scanBarcode = barcodeScanRes;
-    });
+    debouncer = Timer(duration, callback);
   }
 
-  Future<SearchResult> fetchSearch(String searchInput) async {
-    final List searchInputSplit = searchInput.split(' ');
-    final String searchString = searchInputSplit.join('%20');
+  Future searchProducts(String query) async => debounce(() async {
+        final products = await BarcodeLookupAPI().getProducts(query);
 
-    // final response = await http.get(Uri.parse(
-    //     'https://api.barcodelookup.com/v3/products?search=GPS%20Navigation%20System&formatted=y&key=6j1lk6uavs4g6qnptuhj0o36q12rc7'));
+        if (!mounted) return;
 
-    final response = await http.get(Uri.parse(
-        'https://api.barcodelookup.com/v3/products?search=' +
-            searchString +
-            '&formatted=y&key=6j1lk6uavs4g6qnptuhj0o36q12rc7'));
+        setState(() {
+          this.query = query;
+          this.futureSearchResult = products;
+        });
+      });
 
-    if (response.statusCode == 200) {
-      var prods = SearchResult.fromJson(jsonDecode(response.body));
-      return prods;
-    } else {
-      throw Exception('ERROR: Failed to load product.');
-    }
-  }
-
-  void showSearchDialog(String input) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Thanks!'),
-          content: Text(
-              'You typed "$input", which has length ${input.characters.length}.'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget buildSearchResults(Product product) => ListTile(
+  Widget buildProducts(Product product) => ListTile(
+        leading: Image.network(product.images[0],
+            fit: BoxFit.cover, width: 50, height: 50),
         title: Text(product.title),
         subtitle: Text(product.brand),
       );
 
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            pinned: true,
-            snap: false,
-            centerTitle: true,
-            title: Text('Add Item'),
-            bottom: AppBar(
-              title: Container(
-                width: double.infinity,
-                height: 40,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(6)),
-                child: TextField(
-                  controller: TextEditingController(),
-                  decoration: InputDecoration(
-                      prefixIcon: IconButton(
-                          onPressed: () {}, icon: Icon(Icons.search)),
-                      suffixIcon: IconButton(
-                          onPressed: () => barcodeScan(),
-                          icon: Icon(Icons.camera_alt)),
-                      hintText: 'Search...',
-                      border: InputBorder.none),
-                  onSubmitted: (String input) {
-                    // futureSearchResult = fetchSearch(input);
-                  },
-                ),
-              ),
-              automaticallyImplyLeading: false,
-            ),
-          ),
-          SliverList(
-              delegate: SliverChildListDelegate([
-            Expanded(
-              child: ListView.builder(
-                itemCount: futureSearchResult.length,
-                itemBuilder: (context, index) {
-                  final product = futureSearchResult[index];
-
-                  return buildSearchResults(product);
-                },
-              ),
-            )
-          ]))
-        ],
-      ),
-    );
+        appBar: AppBar(
+          title: Text('Search Item'),
+          centerTitle: true,
+        ),
+        body: Column(
+          children: [
+            buildSearchBar(),
+            if (futureSearchResult.length == 0)
+              Expanded(
+                child: Center(
+                    child: Text(
+                  'No Search Result',
+                  style: TextStyle(fontSize: 21),
+                )),
+              )
+            else
+              Expanded(
+                  child: ListView.builder(
+                      itemCount: futureSearchResult.length,
+                      itemBuilder: (context, index) {
+                        final product = futureSearchResult[index];
+                        return buildProducts(product);
+                      }))
+          ],
+        ));
   }
+
+  Widget buildSearchBar() => SearchBar(
+        text: query,
+        onChanged: searchProducts,
+      );
 }
+
+List<Product> exProds = [
+  Product(
+      title: 'Doritos Nacho Cheese',
+      images: ['https://m.media-amazon.com/images/I/71MQeIS7FAL._SL1500_.jpg'],
+      description: 'description',
+      brand: 'Doritos'),
+  Product(
+      title: 'Doritos Nacho Cheese2',
+      images: ['https://m.media-amazon.com/images/I/71MQeIS7FAL._SL1500_.jpg'],
+      description: 'description',
+      brand: 'Doritos'),
+  Product(
+      title: 'Pocky Chocolate',
+      images: [
+        'https://www.pocky.com/site/themes/pocky/img/products/chocolate/frames/layer-44.png'
+      ],
+      description: 'description',
+      brand: 'Pocky'),
+];
