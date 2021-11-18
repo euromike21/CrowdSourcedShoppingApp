@@ -43,11 +43,18 @@ class _AddItemScreenState extends State<AddItemScreen> {
         });
       });
 
-  Widget buildProducts(Product product) => ListTile(
-        leading: Image.network(product.images[0],
-            fit: BoxFit.cover, width: 50, height: 50),
-        title: Text(product.title),
-        subtitle: Text(product.brand),
+  Widget buildProducts(Product product) => Padding(
+        padding: const EdgeInsets.all(10),
+        child: ListTile(
+          leading: Image.network(product.images[0],
+              fit: BoxFit.cover, width: 70, height: 70),
+          title: Text(
+            product.title,
+            style: TextStyle(fontSize: 18),
+          ),
+          subtitle: Text(product.brand),
+          onTap: () {},
+        ),
       );
 
   Widget build(BuildContext context) {
@@ -84,23 +91,3 @@ class _AddItemScreenState extends State<AddItemScreen> {
         onChanged: searchProducts,
       );
 }
-
-List<Product> exProds = [
-  Product(
-      title: 'Doritos Nacho Cheese',
-      images: ['https://m.media-amazon.com/images/I/71MQeIS7FAL._SL1500_.jpg'],
-      description: 'description',
-      brand: 'Doritos'),
-  Product(
-      title: 'Doritos Nacho Cheese2',
-      images: ['https://m.media-amazon.com/images/I/71MQeIS7FAL._SL1500_.jpg'],
-      description: 'description',
-      brand: 'Doritos'),
-  Product(
-      title: 'Pocky Chocolate',
-      images: [
-        'https://www.pocky.com/site/themes/pocky/img/products/chocolate/frames/layer-44.png'
-      ],
-      description: 'description',
-      brand: 'Pocky'),
-];
