@@ -13,14 +13,18 @@ class NoteDetailPage extends StatefulWidget {
 }
 
 class _NoteDetailPageState extends State<NoteDetailPage> {
+  UserProf usr = UserPreferences.getUser();
   late Note note;
   bool isLoading = false;
+  Completer<GoogleMapController> _controller = Completer();
+  static double _lat = 0.00;
+  static double _lng = 0.00;
 
   @override
   void initState() {
     super.initState();
-
     refreshNote();
+    _getUserLocation();
   }
 
   Future refreshNote() async {
@@ -31,29 +35,66 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
     setState(() => isLoading = false);
   }
 
+  void _getUserLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    setState(() {
+      _lat = position.latitude;
+      _lng = position.longitude;
+    });
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Center(
-            child: Text(
-              'Delete ${note.title}?',
-            ),
+      appBar: AppBar(
+        title: Center(
+          child: Text(
+            'Detail Page',
           ),
-          actions: [deleteButton()],
         ),
-        body: isLoading
-            ? Center(child: CircularProgressIndicator())
-            : Center(
-                child: Text(
-                note.title,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 46,
-                  fontWeight: FontWeight.bold,
-                ),
-              )),
-      );
+        actions: [deleteButton()],
+      ),
+      body: Column(children: [
+        Container(
+          constraints: BoxConstraints.expand(
+            height:
+                Theme.of(context).textTheme.headline4!.fontSize! * 1.1 + 200.0,
+          ),
+          margin: const EdgeInsets.only(bottom: 20.0),
+          child: GoogleMap(
+            markers: {
+              Marker(
+                  markerId: MarkerId('_kCurrPos'),
+                  icon: BitmapDescriptor.defaultMarker,
+                  position: LatLng(_lat, _lng)),
+            },
+            mapType: MapType.normal,
+            initialCameraPosition: CameraPosition(
+              target: LatLng(_lat, _lng),
+              zoom: 13,
+            ),
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+            },
+          ),
+        ),
+        Text(
+          "Item: " + note.title.toUpperCase(),
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 26,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+        Text(
+          "Best Price: ...SOME PRICE",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 22,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+      ]));
 
   Widget deleteButton() => IconButton(
         icon: Icon(Icons.delete),

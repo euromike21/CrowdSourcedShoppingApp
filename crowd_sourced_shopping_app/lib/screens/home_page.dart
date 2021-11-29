@@ -1,4 +1,5 @@
 import 'package:crowd_sourced_shopping_app/exports.dart';
+import 'package:geolocator/geolocator.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key}) : super(key: key);
@@ -12,10 +13,13 @@ class _MyHomePageState extends State<MyHomePage> {
   UserModel loggedInUser = UserModel();
   late UserProf usr = UserPreferences.getUser();
   int selected_index = 0;
+  var latitudeData = "";
+  var longitudeData = "";
 
   @override
   void initState() {
     super.initState();
+    _determinePosition();
     FirebaseFirestore.instance
         .collection("users")
         .doc(user!.uid)
@@ -26,6 +30,15 @@ class _MyHomePageState extends State<MyHomePage> {
           name: "${loggedInUser.firstName} ${loggedInUser.secondName}"));
       UserPreferences.setUser(usr);
     });
+  }
+
+  Future _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    permission = await Geolocator.checkPermission();
   }
 
   // Tabs for navigation bar
