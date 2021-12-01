@@ -1,7 +1,6 @@
 export 'dart:async';
 export 'dart:io';
 export 'dart:convert';
-
 export 'package:cloud_firestore/cloud_firestore.dart';
 export 'package:firebase_auth/firebase_auth.dart';
 export 'package:firebase_core/firebase_core.dart';
@@ -15,7 +14,6 @@ export 'package:image_picker/image_picker.dart';
 export 'package:path_provider/path_provider.dart';
 export 'package:shared_preferences/shared_preferences.dart';
 export 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
 export 'api/barcode_lookup_api.dart';
 export 'db/notes.dart';
 export 'model/user_model.dart';
@@ -38,6 +36,7 @@ export 'widget/appbar_widget.dart';
 export 'widget/button_widget.dart';
 export 'widget/note_card_widget.dart';
 export 'widget/note_form_widget.dart';
+export 'widget/price_list_widget.dart';
 export 'widget/profile_widget.dart';
 export 'widget/search_bar_widget.dart';
 export 'package:crowd_sourced_shopping_app/model/shop_item.dart';
@@ -49,7 +48,6 @@ export 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 export 'package:crowd_sourced_shopping_app/widget/note_form_widget.dart';
 export 'package:crowd_sourced_shopping_app/utils/user_preferences.dart';
 export 'package:theme_provider/theme_provider.dart';
-export 'dart:io';
 export 'package:crowd_sourced_shopping_app/model/user.dart';
 export 'package:crowd_sourced_shopping_app/widget/appbar_widget.dart';
 export 'package:crowd_sourced_shopping_app/widget/button_widget.dart';

@@ -44,7 +44,6 @@ class _SearchBarState extends State<SearchBar> {
       height: 40,
       margin: EdgeInsets.all(14),
       decoration: BoxDecoration(
-          color: Colors.white,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: Colors.black38)),
       child: TextField(

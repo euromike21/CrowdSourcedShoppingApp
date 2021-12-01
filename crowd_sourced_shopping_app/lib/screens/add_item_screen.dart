@@ -53,7 +53,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
             style: TextStyle(fontSize: 18),
           ),
           subtitle: Text(product.brand),
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProductDetails(product: product)));
+          },
         ),
       );
 
