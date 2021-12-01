@@ -87,7 +87,7 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
           ),
         ),
         Text(
-          "Best Price: ...SOME PRICE",
+          "Best Price: \$ 7.99",
           style: TextStyle(
             color: Colors.black,
             fontSize: 22,

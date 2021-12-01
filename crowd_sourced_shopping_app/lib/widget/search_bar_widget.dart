@@ -13,6 +13,7 @@ class SearchBar extends StatefulWidget {
 
 class _SearchBarState extends State<SearchBar> {
   String scanBarcode = "Unknown";
+  final controller = TextEditingController();
 
   Future<void> barcodeScan() async {
     String barcodeScanRes;
@@ -43,11 +44,10 @@ class _SearchBarState extends State<SearchBar> {
       height: 40,
       margin: EdgeInsets.all(14),
       decoration: BoxDecoration(
-          color: Colors.white,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: Colors.black38)),
       child: TextField(
-        controller: TextEditingController(),
+        controller: controller,
         decoration: InputDecoration(
             prefixIcon: IconButton(onPressed: () {}, icon: Icon(Icons.search)),
             suffixIcon: IconButton(
