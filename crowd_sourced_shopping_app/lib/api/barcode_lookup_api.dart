@@ -1,7 +1,7 @@
 import 'package:crowd_sourced_shopping_app/exports.dart';
 import 'package:http/http.dart' as http;
 
-const barcodeLookupAPIKey = 'lp98j0klvkxeuhmuhho76ijfr2e2aq';
+const barcodeLookupAPIKey = 'aeoffzdl69tom2uq84xxq5o6mk42jy';
 
 class BarcodeLookupAPI {
   Future<List<Product>> getProducts(String query) async {
